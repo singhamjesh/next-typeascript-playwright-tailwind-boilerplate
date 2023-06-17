@@ -1,2 +1,11 @@
-# nextjs_boilerplate
-Well structured with router, redux, socket and aws 
+# next.js + typescript boilerplate
+
+```
+Nextjs
+Typescript
+Redux
+Redux-persist
+Socket.io
+Tailwindcss
+playwrite
+```
