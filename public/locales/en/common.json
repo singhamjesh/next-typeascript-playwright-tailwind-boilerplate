@@ -1,0 +1,21 @@
+{
+  "NAME": "Spritz",
+  "TITLE": "Spritz",
+  "DESCRIPTION": "AI powered tools",
+  "SUB_TITLE": "Spritz is the code name for an AI based document processing application.",
+  "SIGN_IN_PAGE": {
+    "SOCIAL_LOGIN_HEADING": "Create an account or sign in.",
+    "CONFIRMATION_TEXT": "Please check your email for the confirmation code."
+  },
+  "SIGN_IN_FORM": {
+    "EMAIL_PLACEHOLDER": "Enter email",
+    "LOGIN_BUTTON": "Login",
+    "LOADING": "Sending..."
+  },
+  "OTP_FORM": {
+    "OTP_PLACEHOLDER": "Enter confirmation code",
+    "OTP_VERIFYING": "Verifying...",
+    "SUBMIT_BUTTON": "Verify",
+    "RESEND_BUTTON": "Resend otp"
+  }
+}

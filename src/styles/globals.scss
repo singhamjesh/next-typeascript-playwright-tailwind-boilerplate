@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import './font-faces';
+@import './variables';
+@import './mixins';
+@import 'react-toastify/dist/ReactToastify.css';
+@import 'react-datetime/css/react-datetime.css';
+
+html {
+  scroll-behavior: smooth;
+}
+
+@layer base {
+  html {
+    // font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    scroll-behavior: smooth;
+  }
+}
+
+p {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 3rem;
+  line-height: 3.875rem;
+  @include responsive('mobile') {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+}
+
+h2 {
+  font-weight: 700;
+  font-size: 2rem;
+  line-height: 2.625rem;
+}
+
+h3 {
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+h4 {
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.625rem;
+}
+
+h5 {
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+h6 {
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.rdtPicker th {
+  font-size: 14px;
+}
