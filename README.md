@@ -1,4 +1,4 @@
-# next.js + typescript boilerplate
+# Next.js + Typescript + Playwright + TailwindCSS Boilerplate
 
 ### Development Guidelines
 
