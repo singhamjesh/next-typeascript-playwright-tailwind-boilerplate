@@ -1,67 +1,36 @@
-// import { createWrapper /* Context */ } from 'next-redux-wrapper';
-// import thunkMiddleware from 'redux-thunk';
-// import { persistStore } from 'redux-persist';
-// import { configureStore } from '@reduxjs/toolkit';
-// import reducer from '@/reducers';
-// import persistMiddleware from '@/store/persistMiddleware';
+import type { Action, ThunkAction } from '@reduxjs/toolkit';
+import { combineSlices, configureStore } from '@reduxjs/toolkit';
+import { counterSlice } from './counterSlice';
+import { quotesApiSlice } from './quotesApiSlice';
 
-// const isDebug = process.env.NODE_ENV !== 'production';
+// `combineSlices` automatically combines the reducers using
+// their `reducerPath`s, therefore we no longer need to call `combineReducers`.
+const rootReducer = combineSlices(counterSlice, quotesApiSlice);
+// Infer the `RootState` type from the root reducer
+export type RootState = ReturnType<typeof rootReducer>;
 
-// // use for payload context: Context
-// const makeStore = (/* context: Context */) => {
-//   const isServer = typeof window === 'undefined';
-//   const store: any = configureStore({
-//     reducer,
-//     devTools: isDebug,
-//     middleware: [thunkMiddleware, persistMiddleware]
-//   });
-
-//   if (isServer) {
-//     return store;
-//   }
-
-//   store['__persistor'] = persistStore(store); // Nasty hack
-//   return store;
-// };
-
-// export const wrapper = createWrapper(makeStore, { debug: isDebug });
-
-import { createWrapper, HYDRATE } from 'next-redux-wrapper';
-import thunkMiddleware from 'redux-thunk';
-import { persistStore } from 'redux-persist';
-import { configureStore } from '@reduxjs/toolkit';
-import reducer from '@/reducers';
-
-const isDebug = process.env.NODE_ENV !== 'production';
-
-const makeStore = () => {
-  const isServer = typeof window === 'undefined';
-  const store: any = configureStore({
-    reducer,
-    devTools: isDebug,
-    middleware: [thunkMiddleware]
-    // Add the serializableCheck false option
-    // serializableCheck: false
+// `makeStore` encapsulates the store configuration to allow
+// creating unique store instances, which is particularly important for
+// server-side rendering (SSR) scenarios. In SSR, separate store instances
+// are needed for each request to prevent cross-request state pollution.
+export const makeStore = () => {
+  return configureStore({
+    reducer: rootReducer,
+    // Adding the api middleware enables caching, invalidation, polling,
+    // and other useful features of `rtk-query`.
+    middleware: (getDefaultMiddleware) => {
+      return getDefaultMiddleware().concat(quotesApiSlice.middleware);
+    },
   });
-
-  if (isServer) {
-    return store;
-  }
-
-  store['__persistor'] = persistStore(store); // Nasty hack
-  return store;
 };
 
-export const wrapper = createWrapper(makeStore, { debug: isDebug });
-
-// Add the wrapper to handle HYDRATE action
-export const rootReducer = (state: any, action: any) => {
-  if (action.type === HYDRATE) {
-    // Merge server state with client state
-    return {
-      ...state,
-      ...action.payload
-    };
-  }
-  return reducer(state, action);
-};
+// Infer the return type of `makeStore`
+export type AppStore = ReturnType<typeof makeStore>;
+// Infer the `AppDispatch` type from the store itself
+export type AppDispatch = AppStore['dispatch'];
+export type AppThunk<ThunkReturnType = void> = ThunkAction<
+  ThunkReturnType,
+  RootState,
+  unknown,
+  Action
+>;
